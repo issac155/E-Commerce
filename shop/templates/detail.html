@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="utf-8">
+    <title>MultiShop - Online Shop Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">  
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-dark mb-30">
+        <div class="row px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
+                    <h6 class="text-dark m-0"><b style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;font-size: 50px;">I MALL</b></h6>
+                    
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">
+                    <a href="" class="text-decoration-none d-block d-lg-none">
+                        <span class="h1 text-uppercase text-dark bg-light px-2">Multi</span>
+                        <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1">Shop</span>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto py-0">
+                            <a href="{% url 'index' %}" class="nav-item nav-link">Home</a>
+                            <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                           
+                        </div>
+                        
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    <a class="breadcrumb-item text-dark" href="#">Product Details</a>
+
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Shop Detail Start -->
+    {% if d %}
+    <div class="container-fluid pb-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-5 mb-30">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+                        <div class="carousel-item active">
+                            <img class="img-fluid w-100" src="{{d.image.url}}" alt="" style="height:25rem;">
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+          
+            <div class="col-lg-7 h-auto mb-30">
+                <div class="h-100 bg-light p-30">
+                    <h3>{{ d.name }}</h3>
+                    
+                    <h3 class="font-weight-semi-bold mb-4">₹{{ d.price }}</h3>
+                    <p class="mb-4">{{ d.description }}</p>
+                   
+                   
+                    <div>
+                    <form action="{% url 'fe' %}" method="post">
+                        {% csrf_token %}
+                      <input type="number" id="qua" min="1" max="6" name = "no" oninput="who()" style="width: 8rem;">
+                      <input type="hidden" name="io" value="{{ d.id }}">
+                      </div>
+                      <br>
+                      <button class="btn btn-primary px-3" id="yo" disabled  ><b> Buy Now</b></button>
+                    </form>
+                </div>
+            </div>
+           
+
+        </div>
+    </div>
+    
+    <div class="container" >
+        <div class="row">
+            {% for i in yi %}
+            <div class="card" style="width: 18rem; margin-left: 2rem;border: 2px solid blue; border-radius: 10px;">
+                <img class="card-img-top " src="{{i.image.url}}" alt="Card image cap" style="height: 10rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{ i.name }}</h5>
+                
+                </div>
+              </div>
+          
+            {% endfor %}
+    </div>
+
+    </div>
+    <br>
+    <hr style="background-color: black;">
+    <section>
+        <div class="container" >
+            <div class="row">
+                <div class="col-sm-5 col-md-6 col-12 pb-4">
+
+
+                    <br>
+                    
+                    <h1>Comments</h1>
+                    {% if not d.comments.all %}
+
+                    <h2 style="color: red;"> Not any comment</h2>
+                    {% else %}
+                    {% for i in d.comments.all reversed  %}
+                    <div class="comment mt-4 text-justify " style="border: 2px solid black; border-radius: 10px;padding-left: 5px;">
+        
+                        <h4>{{i.u_name}}</h4>
+                    
+                        <h5>{{i.u_body}}</h5>
+                        
+                        <span>{{i.date}}</span>
+                    </div>
+                    {% endfor %}
+                    
+                    {% endif %}
+                   
+                   
+                </div>
+                <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+                   
+                        <form action="{% url 'hi' %}" >
+                           
+                        <div class="form-group">
+                            <h4>Leave a comment</h4>
+                            <label for="message">Message</label>
+                            <textarea  cols="30" rows="5" class="form-control" id="ji" name="ty" oninput="ui()" style="background-color: white;"></textarea>
+                            <input type="hidden" name="ji" value="{{ user.id }}">
+                            <input type="hidden" name="si" value="{{d.id}}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn  py-2 px-4" type="submit" id="lo" disabled style="background-color: yellow;" >post</button>
+                        </div>
+                        </form>
+                        <!-- <div class="form-inline">
+                            <input type="checkbox" name="check" id="checkbx" class="mr-1">
+                            <label for="subscribe">Subscribe me to the newlettter</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="post" class="btn">Post Comment</button>
+                        </div> -->
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% else %}
+
+    <img src="{% static 'img/funny.jpg' %}" class="img-fluid" alt="Responsive image">
+    {% endif %}
+
+
+    <!-- Shop Detail End -->
+
+
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script>
+
+        function who()
+        {
+        var qu = document.getElementById('qua').value;
+        // let min = document.getElementById("bai");
+        // let plus = document.getElementById("hai");
+      console.log(qu)
+
+        if (qu > 0 && qu < 7 ) {
+            document.getElementById('yo').disabled = false;
+        }
+
+        else {
+            document.getElementById('yo').disabled = true; 
+        }
+    
+        }
+
+        
+        
+      </script>
+
+      <script>
+
+        function ui()
+        {
+            var hi = document.getElementById('ji').value;
+            console.log(hi)
+
+        if(hi != ''){
+            document.getElementById('lo').disabled = false;
+        }
+
+        else{
+            document.getElementById('lo').disabled = true;
+        }
+
+        }
+       </script> 
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+</html>
